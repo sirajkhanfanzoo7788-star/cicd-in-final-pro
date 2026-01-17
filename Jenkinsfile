@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "sirajkhanfanzoo7788/simple-cicd-app"
+        // Use your Docker Hub repository
+        DOCKER_IMAGE = "sirajahmad77/cicd-final-pro-in"
         DOCKER_TAG   = "latest"
     }
 
@@ -31,7 +32,8 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    bat 'docker login -u %DOCKER_USER% -p %DOCKER_PASS%'
+                    // Safer login using password-stdin
+                    bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
                     bat 'docker push %DOCKER_IMAGE%:%DOCKER_TAG%'
                 }
             }
